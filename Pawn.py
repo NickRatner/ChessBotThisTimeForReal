@@ -12,7 +12,7 @@ class Pawn(Piece):
         availableMoves = []
 
         if self.team == "White":
-            if board[currentY - 1][currentX] == None:
+            if not self.outOfBounds(currentX, currentY - 1) and board[currentY - 1][currentX] == None:
                 availableMoves.append((currentX, currentY - 1))
 
             if not self.hasMoved:
@@ -20,7 +20,7 @@ class Pawn(Piece):
                     availableMoves.append((currentX, currentY - 2))
 
         else: #if team == "Black"
-            if board[currentY + 1][currentX] == None:
+            if not self.outOfBounds(currentX, currentY + 1) and board[currentY + 1][currentX] == None:
                 availableMoves.append((currentX, currentY + 1))
 
             if not self.hasMoved:

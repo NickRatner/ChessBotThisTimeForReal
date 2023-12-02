@@ -72,15 +72,16 @@ while running:
             if chessBoard.board[int(my / 100)][int(mx / 100)]: #if the square clicked on contains a piece
                 chosenPiece = chessBoard.board[int(my / 100)][int(mx / 100)]
 
-                if pieceSelected or chosenPiece.team == "White": #ensures the player can only interact with white piece, assuming a white piece isn't already selected
-
+                #if pieceSelected or chosenPiece.team == "White": #ensures the player can only interact with white piece, assuming a white piece isn't already selected
+                if True:
                     if pieceSelected: #if a piece is currently selected
 
                         #if a piece is selected, and another one was clicked on that is within the selected piece's available captures, capture the piece
                         if (int(mx / 100), int(my / 100)) in chessBoard.board[int(previousMY / 100)][int(previousMX / 100)].availableCaptures(int(previousMX / 100), int(previousMY / 100), chessBoard.board):
                             chessBoard.board[int(previousMY / 100)][int(previousMX / 100)].hasMoved = True
-                            chessBoard.board[int(my / 100)][int(mx / 100)] = chessBoard.board[int(previousMY / 100)][int(previousMX / 100)]  # update the new position
-                            chessBoard.board[int(previousMY / 100)][int(previousMX / 100)] = None  # clear the old position
+
+                            chessBoard.makeMove(int(previousMX / 100), int(previousMY / 100), int(mx / 100), int(my / 100))
+
                             playerMoved = True
 
                             pieceSelected = False
@@ -102,46 +103,50 @@ while running:
                     # castling
                     if str(type(chosenPiece)) == "<class 'King.King'>" and not chosenPiece.hasMoved:
                         if (int(mx / 100), int(my / 100)) == (2, 7):  # white king castle left
-                            chessBoard.board[7][3] = Rook("White") #move the rook
+
+                            chessBoard.makeMove(4, 7, 2, 7) #move the king
+                            chessBoard.makeMove(0, 7, 3, 7)  # move the rook
+
                             chessBoard.board[7][3].hasMoved = True
-                            chessBoard.board[7][0] = None
-                            chessBoard.board[7][2] = King("White")  # move the king
                             chessBoard.board[7][2].hasMoved = True
-                            chessBoard.board[7][4] = None
+
                             playerMoved = True
 
                         elif (int(mx / 100), int(my / 100)) == (6, 7):  # white king castle right
-                            chessBoard.board[7][5] = Rook("White") #move the rook
+
+                            chessBoard.makeMove(4, 7, 6, 7)  # move the king
+                            chessBoard.makeMove(7, 7, 5, 7)  # move the rook
+
                             chessBoard.board[7][5].hasMoved = True
-                            chessBoard.board[7][7] = None
-                            chessBoard.board[7][6] = King("White")  # move the king
                             chessBoard.board[7][6].hasMoved = True
-                            chessBoard.board[7][4] = None
+
                             playerMoved = True
 
                         elif (int(mx / 100), int(my / 100)) == (2, 0):  # black king castle left
-                            chessBoard.board[0][3] = Rook("Black") #move the rook
+
+                            chessBoard.makeMove(4, 0, 2, 0)  # move the king
+                            chessBoard.makeMove(0, 0, 3, 0)  # move the rook
+
                             chessBoard.board[0][3].hasMoved = True
-                            chessBoard.board[0][0] = None
-                            chessBoard.board[0][2] = King("Black")  # move the king
                             chessBoard.board[0][2].hasMoved = True
-                            chessBoard.board[0][4] = None
+
                             playerMoved = True
 
                         elif (int(mx / 100), int(my / 100)) == (6, 0):  # black king castle right
-                            chessBoard.board[0][5] = Rook("Black") #move the rook
+
+                            chessBoard.makeMove(4, 0, 6, 0) # move the king
+                            chessBoard.makeMove(7, 0, 5, 0)  # move the rook
+
                             chessBoard.board[0][5].hasMoved = True
-                            chessBoard.board[0][7] = None
-                            chessBoard.board[0][6] = King("Black")  # move the king
                             chessBoard.board[0][6].hasMoved = True
-                            chessBoard.board[0][4] = None
+
                             playerMoved = True
 
                     # if a piece was selected, and the click was on one of its avaialbe moves, move the piece
                     if (int(mx / 100), int(my / 100)) in chosenPiece.availableMoves(int(previousMX / 100), int(previousMY / 100), chessBoard.board):
                         chosenPiece.hasMoved = True
-                        chessBoard.board[int(my / 100)][int(mx / 100)] = chosenPiece #update the new position
-                        chessBoard.board[int(previousMY / 100)][int(previousMX / 100)] = None #clear the old position
+                        chessBoard.makeMove(int(previousMX / 100), int(previousMY / 100), int(mx / 100), int(my / 100))
+
                         playerMoved = True
 
 
@@ -150,21 +155,25 @@ while running:
             if UtilityFunctions.isCheckMate(chessBoard.board, "Black"): #checks for checkmate after each moves, and ends the game
                 print("Game Over: White Wins")
 
+            if UtilityFunctions.isStaleMate(chessBoard.board, "Black"):
+                print("Game Over: Black is stalemated")
+
             if playerMoved:
                 playerMoved = False
                 # computer makes move here
                 [(oldX,oldY), (newX,newY)] = UtilityFunctions.findRandomBlackMove(chessBoard.board)
-                chessBoard.board[newY][newX] = chessBoard.board[oldY][oldX]
-                chessBoard.board[oldY][oldX] = None
-
+                chessBoard.makeMove(oldX, oldY, newX, newY)
 
 
             if UtilityFunctions.isCheckMate(chessBoard.board, "White"): #checks for checkmate after each moves, and ends the game
                 print("Game Over: Black Wins")
 
+            if UtilityFunctions.isStaleMate(chessBoard.board, "White"):
+                print("Game Over: White is stalemated")
 
             previousMX = mx
             previousMY = my
+
 
 
     # Drawing code goes here

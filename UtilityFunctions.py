@@ -29,14 +29,6 @@ class UtilityFunctions:
     @staticmethod
     def isCheckMate(board, team): #returns if the given team is in checkmate
 
-        # finds the coordinates of the king
-        for i in range(8):
-            for j in range(8):
-                if str(type(board[j][i])) == "<class 'King.King'>":
-                    if board[j][i].team == team:
-                        kingX = i
-                        kingY = j
-
         if not UtilityFunctions.isInCheck(board,team):
             return False
 
@@ -47,6 +39,22 @@ class UtilityFunctions:
                         return False
 
         return True
+
+    @staticmethod
+    def isStaleMate(board, team):
+
+        if UtilityFunctions.isInCheck(board, team):
+            return False
+
+        #if pieces have no available moves and are not in check
+        for i in range(8):
+            for j in range(8):
+                if board[j][i] and board[j][i].team == team:  # if we reach a piece on the same team as the king check its availble moves
+                    if not board[j][i].availableCaptures(i, j, board) == [] or not board[j][i].availableMoves(i, j, board) == []:
+                        return False #if a piece can move, the team is not in stalemate
+
+        return True
+
 
 
     @staticmethod

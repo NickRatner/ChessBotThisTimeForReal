@@ -12,8 +12,6 @@ class Piece:
         return x < 0 or x > 7 or y < 0 or y > 7
 
 
-
-
     def isPieceBlockingCheck(self, x, y, board):
         #given a board, and a coordinate, is the piece at that coordinate blocking check for its king (if not, all its moves are safe)
         #note: returns true if this piece is single-handedly preventing check, meaning even if it is blocking check, but the king is in check anyway, this returns false

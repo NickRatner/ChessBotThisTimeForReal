@@ -1,7 +1,6 @@
 from Piece import Piece
 from Rook import Rook
 from Bishop import Bishop
-from UtilityFunctions import UtilityFunctions
 
 class Queen(Piece):
 

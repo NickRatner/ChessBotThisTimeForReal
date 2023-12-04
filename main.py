@@ -5,6 +5,7 @@ from Rook import Rook
 from King import King
 
 chessBoard = Board.Board()
+print(chessBoard.minimax(False, 1)) #calling it for white
 
 def drawBoard(gameWindow):
 
@@ -161,7 +162,7 @@ while running:
             if playerMoved:
                 playerMoved = False
                 # computer makes move here
-                [(oldX,oldY), (newX,newY)] = UtilityFunctions.findRandomBlackMove(chessBoard.board)
+                [(oldX,oldY), (newX,newY)] = chessBoard.findBestBlackMove()
                 chessBoard.makeMove(oldX, oldY, newX, newY)
 
 
@@ -170,6 +171,7 @@ while running:
 
             if UtilityFunctions.isStaleMate(chessBoard.board, "White"):
                 print("Game Over: White is stalemated")
+
 
             previousMX = mx
             previousMY = my

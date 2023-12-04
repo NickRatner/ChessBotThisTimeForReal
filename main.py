@@ -5,7 +5,6 @@ from Rook import Rook
 from King import King
 
 chessBoard = Board.Board()
-print(chessBoard.minimax(False, 1)) #calling it for white
 
 def drawBoard(gameWindow):
 
@@ -162,7 +161,7 @@ while running:
             if playerMoved:
                 playerMoved = False
                 # computer makes move here
-                [(oldX,oldY), (newX,newY)] = chessBoard.findBestBlackMove()
+                (eval, oldX, oldY, newX, newY) = chessBoard.minimax(False, 2, -200, 200) #passing in worst possible values of alpha and beta for both white and black, so they can later be updated
                 chessBoard.makeMove(oldX, oldY, newX, newY)
 
 

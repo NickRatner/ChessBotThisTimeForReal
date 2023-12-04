@@ -124,10 +124,15 @@ class Board:
 
 
 
-    def minimax(self, maximizingPlayer, depth):
+    def minimax(self, maximizingPlayer, depth, alpha, beta):
+
+        oldX = 0
+        oldY = 0
+        newX = 0
+        newY = 0
 
         if depth == 0 or UtilityFunctions.isStaleMate(self.board, "White") or UtilityFunctions.isStaleMate(self.board, "Black") or UtilityFunctions.isCheckMate(self.board, "White") or UtilityFunctions.isCheckMate(self.board, "Black"):
-            return self.evaluate()
+            return (self.evaluate(), oldX, oldY, newX, newY)
 
         if maximizingPlayer: #maximizing player is white, so it is white's turn
             maxEval = -200 #evaluation cannot naturally be lower
@@ -140,10 +145,19 @@ class Board:
                             tempBoard.board = copy.deepcopy(self.board)
                             tempBoard.makeMove(i, j, move[0], move[1])
 
-                            eval = tempBoard.minimax(False, depth - 1)
-                            maxEval = max(maxEval, eval) #set the max possible evaluation to the max of the current evaluation, and the newly found one
+                            eval = tempBoard.minimax(False, depth - 1, alpha, beta)[0]
+                            if eval > maxEval:
+                                oldX = i
+                                oldY = j
+                                newX = move[0]
+                                newY = move[1]
 
-            return maxEval
+                                maxEval = eval #set the max possible evaluation to the max of the current evaluation, and the newly found one
+
+                            alpha = max(alpha, eval) #alpha is the larger value out of itself and eval, meaning its the highest value white can achieve
+                            if beta <= alpha: #if beta (black's best score) is less than alpha (white's best score) we don't need to keep searching since white won't pick this path
+                                break
+            return (maxEval, oldX, oldY, newX, newY)
 
 
         else: #it is the minimizing player, so black's turn
@@ -157,7 +171,16 @@ class Board:
                             tempBoard.board = copy.deepcopy(self.board)
                             tempBoard.makeMove(i, j, move[0], move[1])
 
-                            eval = tempBoard.minimax(True, depth - 1)
-                            minEval = min(minEval, eval) #set the max possible evaluation to the max of the current evaluation, and the newly found one
+                            eval = tempBoard.minimax(True, depth - 1, alpha, beta)[0]
+                            if eval < minEval:
+                                oldX = i
+                                oldY = j
+                                newX = move[0]
+                                newY = move[1]
 
-            return minEval
+                                minEval = eval #set the max possible evaluation to the max of the current evaluation, and the newly found one
+
+                            beta = min(beta, eval)  # beta is the smaller value out of itself and eval, meaning its the lowest value black can achieve
+                            if beta <= alpha:
+                                break
+            return (minEval, oldX, oldY, newX, newY)

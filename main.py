@@ -72,8 +72,8 @@ while running:
             if chessBoard.board[int(my / 100)][int(mx / 100)]: #if the square clicked on contains a piece
                 chosenPiece = chessBoard.board[int(my / 100)][int(mx / 100)]
 
-                #if pieceSelected or chosenPiece.team == "White": #ensures the player can only interact with white piece, assuming a white piece isn't already selected
-                if True:
+                if pieceSelected or chosenPiece.team == "White": #ensures the player can only interact with white piece, assuming a white piece isn't already selected
+                #if True:
                     if pieceSelected: #if a piece is currently selected
 
                         #if a piece is selected, and another one was clicked on that is within the selected piece's available captures, capture the piece

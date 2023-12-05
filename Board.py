@@ -88,11 +88,16 @@ class Board:
                     elif self.board[j][i].team == "Black":
                         currentState -= values[str(type(self.board[j][i]))]
 
+        if UtilityFunctions.isCheckMate(self.board, "White"):
+            currentState -= 200
+        elif UtilityFunctions.isCheckMate(self.board, "Black"):
+            currentState += 200
+
         return currentState
 
 
 
-    def findBestBlackMove(self):  # this function returns the best move for black (minimax! woo!)
+    def findBestBlackMove(self):  # this function returns the best move for black (looking only 1 move ahead)
         # represented as: [(oldX,oldY), (newX,newY)] where old is the coordinate to move the piece from, and new is the coordinaate to move to
 
         minEvalutaion = self.evaluate()
@@ -179,6 +184,14 @@ class Board:
                                 newY = move[1]
 
                                 minEval = eval #set the max possible evaluation to the max of the current evaluation, and the newly found one
+
+                            if eval == minEval and random.randint(1,5) == 1: #both moves have the same evaluation
+                                oldX = i
+                                oldY = j
+                                newX = move[0]
+                                newY = move[1]
+
+                                minEval = eval  # set the max possible evaluation to the max of the current evaluation, and the newly found one
 
                             beta = min(beta, eval)  # beta is the smaller value out of itself and eval, meaning its the lowest value black can achieve
                             if beta <= alpha:

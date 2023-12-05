@@ -1,4 +1,4 @@
-# ChessBotThisTimeForReal
+# Chess Bot
 An AI Chess Bot using the minimax algorithm with alpha beta pruning
 
 

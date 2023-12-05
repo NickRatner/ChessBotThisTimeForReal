@@ -5,6 +5,7 @@ An AI Chess Bot using the minimax algorithm with alpha beta pruning
 Examples:
 
 Initial Game State:
+
 ![Chess_Bot_Picture1](https://github.com/NickRatner/ChessBotThisTimeForReal/assets/64825802/fac541bf-1279-4fd1-bf69-b0598192d7e3)
 
 

@@ -1,6 +1,9 @@
 # Chess Bot
-An AI Chess Bot using the minimax algorithm with alpha beta pruning
+An AI Chess Bot using the minimax algorithm with alpha beta pruning.
 
+Created using Python and Pygame library for the graphics and user interaction
+
+You play as white and the computer plays as black. After you make a move, the computer will make a move based on how many moves ahead you set it to calculate. Works well up to 3 moves ahead.
 
 Examples:
 
